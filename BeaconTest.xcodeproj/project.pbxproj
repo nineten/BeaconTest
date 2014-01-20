@@ -19,6 +19,12 @@
 		152B7CFB18862E81006D1856 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 152B7CE318862E81006D1856 /* UIKit.framework */; };
 		152B7D0318862E81006D1856 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 152B7D0118862E81006D1856 /* InfoPlist.strings */; };
 		152B7D0518862E81006D1856 /* BeaconTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 152B7D0418862E81006D1856 /* BeaconTestTests.m */; };
+		152B7D0F188633CB006D1856 /* libEstimoteSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 152B7D0E188633CB006D1856 /* libEstimoteSDK.a */; };
+		152B7D11188633D5006D1856 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 152B7D10188633D5006D1856 /* CoreBluetooth.framework */; };
+		152B7D13188633DD006D1856 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 152B7D12188633DD006D1856 /* SystemConfiguration.framework */; };
+		152B7D15188633E4006D1856 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 152B7D14188633E4006D1856 /* CoreLocation.framework */; };
+		152B7D2718868803006D1856 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 152B7D2618868803006D1856 /* Main.storyboard */; };
+		152B7D2D18868AB5006D1856 /* BeaconListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 152B7D2C18868AB5006D1856 /* BeaconListViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +54,13 @@
 		152B7D0018862E81006D1856 /* BeaconTestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BeaconTestTests-Info.plist"; sourceTree = "<group>"; };
 		152B7D0218862E81006D1856 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		152B7D0418862E81006D1856 /* BeaconTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BeaconTestTests.m; sourceTree = "<group>"; };
+		152B7D0E188633CB006D1856 /* libEstimoteSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEstimoteSDK.a; path = EstimoteSDK/libEstimoteSDK.a; sourceTree = "<group>"; };
+		152B7D10188633D5006D1856 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		152B7D12188633DD006D1856 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		152B7D14188633E4006D1856 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		152B7D2618868803006D1856 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		152B7D2B18868AB5006D1856 /* BeaconListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeaconListViewController.h; sourceTree = "<group>"; };
+		152B7D2C18868AB5006D1856 /* BeaconListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeaconListViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +68,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				152B7D15188633E4006D1856 /* CoreLocation.framework in Frameworks */,
+				152B7D13188633DD006D1856 /* SystemConfiguration.framework in Frameworks */,
+				152B7D11188633D5006D1856 /* CoreBluetooth.framework in Frameworks */,
+				152B7D0F188633CB006D1856 /* libEstimoteSDK.a in Frameworks */,
 				152B7CE218862E81006D1856 /* CoreGraphics.framework in Frameworks */,
 				152B7CE418862E81006D1856 /* UIKit.framework in Frameworks */,
 				152B7CE018862E81006D1856 /* Foundation.framework in Frameworks */,
@@ -96,6 +113,10 @@
 		152B7CDE18862E81006D1856 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				152B7D14188633E4006D1856 /* CoreLocation.framework */,
+				152B7D12188633DD006D1856 /* SystemConfiguration.framework */,
+				152B7D10188633D5006D1856 /* CoreBluetooth.framework */,
+				152B7D0E188633CB006D1856 /* libEstimoteSDK.a */,
 				152B7CDF18862E81006D1856 /* Foundation.framework */,
 				152B7CE118862E81006D1856 /* CoreGraphics.framework */,
 				152B7CE318862E81006D1856 /* UIKit.framework */,
@@ -109,6 +130,9 @@
 			children = (
 				152B7CEE18862E81006D1856 /* AppDelegate.h */,
 				152B7CEF18862E81006D1856 /* AppDelegate.m */,
+				152B7D2618868803006D1856 /* Main.storyboard */,
+				152B7D2B18868AB5006D1856 /* BeaconListViewController.h */,
+				152B7D2C18868AB5006D1856 /* BeaconListViewController.m */,
 				152B7CF118862E81006D1856 /* Images.xcassets */,
 				152B7CE618862E81006D1856 /* Supporting Files */,
 			);
@@ -219,6 +243,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				152B7D2718868803006D1856 /* Main.storyboard in Resources */,
 				152B7CEA18862E81006D1856 /* InfoPlist.strings in Resources */,
 				152B7CF218862E81006D1856 /* Images.xcassets in Resources */,
 			);
@@ -239,6 +264,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				152B7D2D18868AB5006D1856 /* BeaconListViewController.m in Sources */,
 				152B7CF018862E81006D1856 /* AppDelegate.m in Sources */,
 				152B7CEC18862E81006D1856 /* main.m in Sources */,
 			);
@@ -359,11 +385,21 @@
 		152B7D0918862E81006D1856 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BeaconTest/BeaconTest-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Users/jayden.ma/Documents/BeaconTest/EstimoteSDK/Headers,
+				);
 				INFOPLIST_FILE = "BeaconTest/BeaconTest-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/jayden.ma/Documents/BeaconTest/EstimoteSDK,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -372,11 +408,21 @@
 		152B7D0A18862E81006D1856 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BeaconTest/BeaconTest-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Users/jayden.ma/Documents/BeaconTest/EstimoteSDK/Headers,
+				);
 				INFOPLIST_FILE = "BeaconTest/BeaconTest-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/jayden.ma/Documents/BeaconTest/EstimoteSDK,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -443,6 +489,7 @@
 				152B7D0A18862E81006D1856 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		152B7D0B18862E81006D1856 /* Build configuration list for PBXNativeTarget "BeaconTestTests" */ = {
 			isa = XCConfigurationList;
@@ -451,6 +498,7 @@
 				152B7D0D18862E81006D1856 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
