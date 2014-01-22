@@ -393,7 +393,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					/Users/jayden.ma/Documents/BeaconTest/EstimoteSDK/Headers,
+					"$(SRCROOT)/EstimoteSDK/Headers",
 				);
 				INFOPLIST_FILE = "BeaconTest/BeaconTest-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -416,7 +416,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					/Users/jayden.ma/Documents/BeaconTest/EstimoteSDK/Headers,
+					"$(SRCROOT)/EstimoteSDK/Headers",
 				);
 				INFOPLIST_FILE = "BeaconTest/BeaconTest-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
