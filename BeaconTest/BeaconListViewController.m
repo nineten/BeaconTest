@@ -19,15 +19,35 @@ const int BEACON_3_MINOR = 41001;
 const float MIN_DISTANCE = 0.1;
 const double MIN_TIMEOUT = 3.0;
 
+const float BEACON_1_H = 6.52;
+const float BEACON_1_L = 3.75;
+const float BEACON_2_H = 1.51;
+const float BEACON_2_L = 0.67;
+const float BEACON_3_H = 6.49;
+const float BEACON_3_L = 3.29;
+
+const float BEACON_H_INIT = 0;
+const float BEACON_L_INIT = 99;
+
 @interface BeaconListViewController ()
 
 @property NSMutableArray *beacons;
+@property (strong, nonatomic) IBOutlet UILabel *regionLabel;
+@property (strong, nonatomic) IBOutlet UIButton *recordBtn;
+@property (strong, nonatomic) IBOutlet UIButton *showBtn;
 @property (nonatomic, strong) ESTBeaconManager* beaconManager;
 @property (nonatomic, strong) ESTBeacon* selectedBeacon;
 @property BOOL isAlerted;
-@property CFTimeInterval timestart1;
-@property CFTimeInterval timestart2;
-@property CFTimeInterval timestart3;
+@property BOOL isInRegion;
+@property BOOL isRecording;
+@property BOOL hasRecord;
+
+@property float beacon_1_h;
+@property float beacon_1_l;
+@property float beacon_2_h;
+@property float beacon_2_l;
+@property float beacon_3_h;
+@property float beacon_3_l;
 
 @end
 
@@ -82,6 +102,8 @@ const double MIN_TIMEOUT = 3.0;
 {
     [super viewDidLoad];
     self.isAlerted = false;
+    self.isRecording = false;
+    self.hasRecord = false;
     self.beacons = [[NSMutableArray alloc] init];
     [self setupManager];
 }
@@ -97,29 +119,80 @@ const double MIN_TIMEOUT = 3.0;
             inRegion:(ESTBeaconRegion *)region
 {
     self.beacons = beacons;
-    if([beacons count] > 0)
-    {
-        for (ESTBeacon *cBeacon in beacons)
-        {
-            if ([cBeacon.distance floatValue] < MIN_DISTANCE)
-            {
-                NSLog(@"Nearby beacon detected.");
-                [self matchBeacon:cBeacon];
+    self.isInRegion = true;
+    if([beacons count] > 0) {
+        for (ESTBeacon *cBeacon in beacons) {
+            if (self.isRecording) {
+                self.regionLabel.text = @"Recording.";
+                switch ([self matchBeacon:cBeacon]) {
+                    case 1:
+                        if (([cBeacon.distance floatValue] < self.beacon_1_l) && ([cBeacon.distance floatValue] >= 0.0)) {
+                            self.beacon_1_l = [cBeacon.distance floatValue];
+                        }
+                        if ([cBeacon.distance floatValue] > self.beacon_1_h) {
+                            self.beacon_1_h = [cBeacon.distance floatValue];
+                        }
+                        break;
+                    case 2:
+                        if (([cBeacon.distance floatValue] < self.beacon_2_l) && ([cBeacon.distance floatValue] >= 0.0)) {
+                            self.beacon_2_l = [cBeacon.distance floatValue];
+                        }
+                        if ([cBeacon.distance floatValue] > self.beacon_2_h) {
+                            self.beacon_2_h = [cBeacon.distance floatValue];
+                        }
+                        break;
+                    case 3:
+                        if (([cBeacon.distance floatValue] < self.beacon_3_l) && ([cBeacon.distance floatValue] >= 0.0)) {
+                            self.beacon_3_l = [cBeacon.distance floatValue];
+                        }
+                        if ([cBeacon.distance floatValue] > self.beacon_3_h) {
+                            self.beacon_3_h = [cBeacon.distance floatValue];
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
-//            cBeacon.delegate = self;
-//            [cBeacon connectToBeacon];
-//            NSLog(@"Beacon %@", cBeacon.macAddress);
-//            
-//            {
-//                self.selectedBeacon = cBeacon;
-//            }
+            else {
+                if (self.hasRecord) {
+                    if ([self matchBeacon:cBeacon] == 1) {
+                        if (([cBeacon.distance floatValue] > self.beacon_1_h)
+                            || ([cBeacon.distance floatValue] < self.beacon_1_l)) {
+                            self.isInRegion = false;
+                            NSLog(@"Beacon 1 not in bound.");
+                        }
+                    }
+                    if ([self matchBeacon:cBeacon] == 2) {
+                        if (([cBeacon.distance floatValue] > self.beacon_2_h)
+                            || ([cBeacon.distance floatValue] < self.beacon_2_l)) {
+                            self.isInRegion = false;
+                            NSLog(@"Beacon 2 not in bound.");
+                        }
+                    }
+                    if ([self matchBeacon:cBeacon] == 3) {
+                        if (([cBeacon.distance floatValue] > self.beacon_3_h)
+                            || ([cBeacon.distance floatValue] < self.beacon_3_l)) {
+                            self.isInRegion = false;
+                            NSLog(@"Beacon 3 not in bound.");
+                        }
+                    }
+                }
+            }
+            
         }
-
-//
-//        NSString *message = [NSString stringWithFormat: @"%d", [beacons count]];
-//        [self dontPanic:message];
         
-        // Do something after detecting a beacon {self.selectedBeacon}
+        if ((!self.isRecording) && (self.hasRecord)) {
+            if (self.isInRegion) {
+                self.regionLabel.text = @"You are in region.";
+                NSLog(@"Is in region");
+            }
+            else {
+                self.regionLabel.text = @"You are not in region.";
+                NSLog(@"Is out of region");
+            }
+            
+        }
+        
         [self.tableView reloadData];
     }
 }
@@ -140,67 +213,69 @@ const double MIN_TIMEOUT = 3.0;
 }
 
 
--(void)matchBeacon:(ESTBeacon *)beacon
+-(int)matchBeacon:(ESTBeacon *)beacon
 {
-    NSLog(@"Checking beacon Major:%d Minor:%d", [beacon.major intValue], [beacon.minor intValue]);
     switch ([beacon.major intValue]) {
         case BEACON_1_MAJOR:
             if ([beacon.minor intValue] == BEACON_1_MINOR) {
-                if ((!self.isAlerted) && (![self isTimedout:self.timestart1])) {
-                    self.timestart1 = CACurrentMediaTime();
-                    self.isAlerted = true;
-                    [self notify:@"Beacon 1 is nearby"];
-                }
+                return 1;
             }
             break;
         case BEACON_2_MAJOR:
             if ([beacon.minor intValue] == BEACON_2_MINOR) {
-                if ((!self.isAlerted) && (![self isTimedout:self.timestart2])) {
-                    self.timestart2 = CACurrentMediaTime();
-                    self.isAlerted = true;
-                    [self notify:@"Beacon 2 is nearby"];
-                }
+                return 2;
             }
             break;
         case BEACON_3_MAJOR:
             if ([beacon.minor intValue] == BEACON_3_MINOR) {
-                if ((!self.isAlerted) && (![self isTimedout:self.timestart3])) {
-                    self.timestart3 = CACurrentMediaTime();
-                    self.isAlerted = true;
-                    [self notify:@"Beacon 3 is nearby"];
-                }
+                return 3;
             }
             break;
         default:
             break;
     }
-    NSLog(@"Check complete.");
-}
-
--(BOOL)isTimedout:(CFTimeInterval)timestart
-{
-    NSLog(@"Checking if it is timed out.");
-    NSLog(@"Timeout for %f %f", CACurrentMediaTime(), timestart);
-    if ((CACurrentMediaTime() - timestart) > MIN_TIMEOUT) {
-        return false;
-    }
-    
-    return true;
+    return 0;
 }
 
 -(void)notify:(NSString *)message
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Notification"
-        message:message
-        delegate:self
-        cancelButtonTitle:@"OK"
-        otherButtonTitles:nil];
-    [alert show];
+    if (!self.isAlerted) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Notification"
+            message:message
+            delegate:self
+            cancelButtonTitle:@"OK"
+            otherButtonTitles:nil];
+        [alert show];
+    }
+    self.isAlerted = true;
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     self.isAlerted = false;
+}
+
+-(void)initializeRecording {
+    self.beacon_1_h = BEACON_H_INIT;
+    self.beacon_1_l = BEACON_L_INIT;
+    self.beacon_2_h = BEACON_H_INIT;
+    self.beacon_2_l = BEACON_L_INIT;
+    self.beacon_3_h = BEACON_H_INIT;
+    self.beacon_3_l = BEACON_L_INIT;
+}
+
+
+- (IBAction)handleRecordClick:(id)sender {
+    NSLog(@"recording");
+    self.isRecording = true;
+    [self initializeRecording];
+}
+
+- (IBAction)handleShowClick:(id)sender {
+    NSLog(@"showing");
+    self.isRecording = false;
+    self.hasRecord = true;
+    [self notify:[NSString stringWithFormat:@"Beacon 1\nH: %f\nL: %f\nBeacon 2\nH: %f\nL: %f\nBeacon 3\nH: %f\nL: %f\n",self.beacon_1_h,self.beacon_1_l,self.beacon_2_h,self.beacon_2_l,self.beacon_3_h,self.beacon_3_l]];
 }
 
 @end
